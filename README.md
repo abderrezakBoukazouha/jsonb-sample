@@ -1,8 +1,5 @@
-# Test containers POC :
+# Repository JSONB exemple :
 
-POC to display how to setup Test containers to launch integration tests with Java Spring Boot. 
+Simple exemple to display the powerfull capabilities of the functionnality of jsonb in postgresql. 
 
-The solution was to implement an abstract class to use it in multiple scenarios. 
-
-
-To use it, you should verify that docker is running behind, and then at Root, use the command : `mvn clean install`
+to execute the test, install the dependancies and run mvn install
