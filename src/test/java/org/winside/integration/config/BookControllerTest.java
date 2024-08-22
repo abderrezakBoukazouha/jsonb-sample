@@ -1,6 +1,7 @@
 package org.winside.integration.config;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,5 +85,16 @@ class BookControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].authors[1]").isMap())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].authors[1].authorId").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].authors[1].awards").isArray());
+    }
+
+    @Test
+    void givenNoneEmptyDataBase_whenSearchingInvalidIsbn_shouldReturnNotFound() throws Exception {
+        // Given
+        final String isbn = "INCORRECT_ISBN";
+
+        // WHEN
+        mockMvc.perform(MockMvcRequestBuilders.get("/book?isbn=%s".formatted(isbn))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }

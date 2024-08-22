@@ -19,12 +19,17 @@ public class BookService {
 
     public List<Book> retrieveAllBooksByIsbn(String isbn) {
         List<String> jsonResponses = libraryRepository.findBookByIsbn(isbn);
-        return jsonResponses.stream().map(jsonResponse -> {
+        List<Book> books =  jsonResponses.stream().map(jsonResponse -> {
             try {
                 return mapper.readValue(jsonResponse, Book.class);
             } catch (JsonProcessingException e) {
                 throw new BookNotFoundException(e.getMessage());
             }
         }).toList();
+
+        if(books.isEmpty()) {
+            throw new BookNotFoundException("Book not found for this isbn : %s".formatted(isbn));
+        }
+        return books;
     }
 }
